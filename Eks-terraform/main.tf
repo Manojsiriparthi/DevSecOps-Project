@@ -54,24 +54,21 @@ resource "aws_iam_role" "eks_node_group" {
     ]
   })
 }
-
-# Attach policies to the node group role
 resource "aws_iam_role_policy_attachment" "eks_node_group_policy" {
-  role       = aws_iam_role.eks_node_group.name
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role      = aws_iam_role.eks_node_group.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "eks_node_group_cni_policy" {
-  role       = aws_iam_role.eks_node_group.name
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role      = aws_iam_role.eks_node_group.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
 resource "aws_iam_role_policy_attachment" "eks_node_group_ec2_policy" {
-  role       = aws_iam_role.eks_node_group.name
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonEC2ContainerServiceforEC2Role"
+  role      = aws_iam_role.eks_node_group.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerServiceforEC2Role"
 }
 
-# EKS Node Group
 resource "aws_eks_node_group" "example" {
   cluster_name    = aws_eks_cluster.example.name
   node_group_name = "example-node-group"
