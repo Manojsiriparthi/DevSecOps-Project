@@ -18,13 +18,13 @@ resource "aws_iam_role" "eks_cluster" {
 
 # Attach policies to the IAM role
 resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
-  role       = aws_iam_role.eks_cluster.name
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role      = aws_iam_role.eks_cluster.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "eks_vpc_cni_policy" {
-  role       = aws_iam_role.eks_cluster.name
-  policy_arn  = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role      = aws_iam_role.eks_cluster.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 }
 
 # EKS Cluster
@@ -54,6 +54,8 @@ resource "aws_iam_role" "eks_node_group" {
     ]
   })
 }
+
+# Attach policies to the IAM role for EKS Node Group
 resource "aws_iam_role_policy_attachment" "eks_node_group_policy" {
   role      = aws_iam_role.eks_node_group.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
@@ -64,11 +66,7 @@ resource "aws_iam_role_policy_attachment" "eks_node_group_cni_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
-resource "aws_iam_role_policy_attachment" "eks_node_group_ec2_policy" {
-  role      = aws_iam_role.eks_node_group.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerServiceforEC2Role"
-}
-
+# EKS Node Group
 resource "aws_eks_node_group" "example" {
   cluster_name    = aws_eks_cluster.example.name
   node_group_name = "example-node-group"
@@ -87,3 +85,4 @@ resource "aws_eks_node_group" "example" {
 
 # Data source for availability zones
 data "aws_availability_zones" "available" {}
+
